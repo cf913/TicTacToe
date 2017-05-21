@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Le Title</title>
+    <link id="stl" href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Roboto" rel="stylesheet">
+</head>
+<body>
+    <header class="circle_back">
+        <h1>Le TicTacToe</h1>
+    </header>
+    
+    <main>
+<!--
+        <div id="players">
+            <form id="playernames">
+                <label id="label1">Player 1 name: <input type="text" name="player1" id="player1" class="playername"></label>
+                <br>
+                <label id="label2">Player 2 name: <input type="text" name="player2" id="player2" class="playername"></label>
+            </form>
+        </div>
+-->
+        
+<!--
+        <div id="game_info">
+            <ul id="game_info1">
+                <li><h2 id="player1_name" class="circle">Player1name</h2></li>
+                <li><h2 id="player1_score" class="active">0</h2></li>
+            </ul>
+
+            <ul id="game_info2">
+                <li><h2 id="player2_name" class="cross">Player2name</h2></li>
+                <li><h2 id="player2_score">0</h2></li>
+            </ul>
+        </div>
+-->
+        
+        <div id="game_info">
+        <div id="game_info1">
+            <ul>
+                <li><a id="player1_name" class="circle playername1 name active" title="Double Click to Change Name">Player 1</a></li>
+                <li><a id="player2_name" class="cross playername2 name" title="Double Click to Change Name">Player 2</a></li>        
+            </ul>
+        </div>
+        <div id="game_info2">
+            <ul>
+                <li><a id="player1_score" class="active">0</a></li>
+                <li><a id="player2_score">0</a></li>
+            </ul>
+        </div>
+        </div>
+        
+        
+        <div id="grid">
+            <table>
+                <tr id="top">
+                    <td id="tl" class="cell"></td>
+                    <td id="tc" class="cell"></td>
+                    <td id="tr" class="cell"></td>
+                </tr>
+                <tr id="center">
+                    <td id="cl" class="cell"></td>
+                    <td id="cc" class="cell"></td>
+                    <td id="cr" class="cell"></td>
+                </tr>
+                <tr id="bottom">
+                    <td id="bl" class="cell"></td>
+                    <td id="bc" class="cell"></td>
+                    <td id="br" class="cell"></td>
+                </tr>                
+            </table>
+        </div>
+        <div id="grid_control">
+            <button id="reset_grid" class="btn">New Game</button>
+            <button id="reset_score" class="btn">Reset Score</button>
+        </div>
+    
+    </main>
+    
+    <footer class="cross_back">
+        <div class="dropdown">
+            <button class="dropbtn">Theme</button>
+            <div class="dropdown-content">
+                <a id="orange_blue" href="#"></a>
+                <a id="normal" href="#"></a>
+                <a id="dark" href="#"></a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/script.js"></script>
+    
+</body>
+</html>
