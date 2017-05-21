@@ -12,6 +12,7 @@ main {
 /*HEADER*/
 header {
     text-align: center;
+    letter-spacing: 0.2em;
     min-height: 20px;
     margin: 0 0;
     padding: 10px;

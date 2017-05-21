@@ -69,14 +69,63 @@ $(document).ready(function() {
 		}
 	}
 
+
+	// Play using numpad
+	$(document).keyup('.cell', function(e) {
+		var code = e.which;
+		switch(code) {
+			case 96: //0
+				resetGrid();
+				break;
+			case 97: //1
+				playTurn($('#bl'), 'bl');
+				break;
+			case 98: //2
+				playTurn($('#bc'), 'bc');
+				break;
+			case 99: //3
+				playTurn($('#br'), 'br');
+				break;
+			case 100: //4
+				playTurn($('#cl'), 'cl');
+				break;
+			case 101: //5
+				playTurn($('#cc'), 'cc');
+				break;
+			case 102: //6
+				playTurn($('#cr'), 'cr');
+				break;
+			case 103: //7
+				playTurn($('#tl'), 'tl');
+				break;554
+			case 104: //8
+				playTurn($('#tc'), 'tc');
+				break;
+			case 105: //9
+				playTurn($('#tr'), 'tr');
+				break;
+			default:
+				break;
+		}
+	});
+
 	$('.cell').on('click', function(e) {
 		var cell = e.target.id;
-		$(this).text(drawSymbol());
-		$(this).removeClass("cross circle").addClass(changeCellState());
-		// $(this).off('click');
-		alterGrid(cell, changeCellState());
-		$(this).addClass('is-disabled');
+		playTurn($(this), cell);
+	});
+
+	$('.cell').on('focus', function(e) {
+	});
+	function playTurn(cell, cellname) {
+		if (cell.hasClass('is-disabled')) {
+			return;
+		}
+		cell.text(drawSymbol());
+		cell.removeClass("cross circle").addClass(changeCellState());
+		alterGrid(cellname, changeCellState());
+		cell.addClass('is-disabled');
 		turns += 1;
+
 		if (win() == true) { 
 			$('#score').text("Winner"); 
 			increaseScore();
@@ -87,7 +136,7 @@ $(document).ready(function() {
             markLoss();
 		}
 		nextTurn();
-	});
+	}
 
 	function increaseScore() {
 		if (player_turn == 1) {
@@ -110,26 +159,30 @@ $(document).ready(function() {
 		grid[cell] = state;
 	}
 
-	function resetGrid() {
-		grid = {tl: "empty", tc: "empty", tr:"empty",
-				cl: "empty", cc: "empty", cr:"empty",
-				bl: "empty", bc: "empty", br:"empty"};
-	}
 
-	$('#reset_grid').on('click', function(e) {
+	$('#reset_grid').on('click', function() {
 		resetGrid();
-		$('.cell').removeClass("cross circle is-disabled win loss").text("");
-		console.log($('tr').children());
-		turns = 0; 
 	});
     
     $('#reset_score').on('click', function() {
-        player1.score = 0;
-        player2.score = 0;
-        updateScore();
+        resetScore();
     });
     
-    
+    function resetGrid() {
+    	grid = {tl: "empty", tc: "empty", tr:"empty",
+				cl: "empty", cc: "empty", cr:"empty",
+				bl: "empty", bc: "empty", br:"empty"};
+		$('.cell').removeClass("cross circle is-disabled win loss").text("");
+		console.log($('tr').children());
+		turns = 0; 
+    }
+
+    function resetScore() {
+    	player1.score = 0;
+        player2.score = 0;
+        updateScore();
+    }
+
     function updateScore() {
         $('#player1_score').text(player1.score);
         $('#player2_score').text(player2.score);
