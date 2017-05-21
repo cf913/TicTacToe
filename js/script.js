@@ -1,16 +1,8 @@
 $(document).ready(function() {
 
-	// $('#player1').keyup(function(e) {
-	// 	var code = e.which;
-	// 	var name = e.target.value
-	// 	if (code == 13 && name != "") {
-	// 		e.preventDefault();
-	// 		$('#player1_name').text(name);
-	// 	}
-
-	// });
-
+	//keeps track who's turn it is to play
 	var player_turn = 1;
+	//number of moves played
 	var turns = 0;
 
 	var player1 = {name: "Player1", symbol: "circle", score: 0};
@@ -21,54 +13,41 @@ $(document).ready(function() {
 
 
 
-    
+    /*************** Change player name *********************/
     $(document).on('dblclick', '#player1_name', function(e) {
-        $(this).replaceWith('<input type="text" name="player1" maxlength="10" id="player1" class="playername1 nameform">');                 
+        $(this).replaceWith('<input type="text" name="player1" maxlength="10" \
+        						id="player1" class="playername1 nameform">');                 
         $('#player1').focus();
     });
     
     $(document).on('dblclick', '#player2_name', function(e) {
-        $(this).replaceWith('<input type="text" name="player2" maxlength="10" id="player2" class="playername2 nameform">');             
+        $(this).replaceWith('<input type="text" name="player2" maxlength="10" \
+        						id="player2" class="playername2 nameform">');             
         $('#player2').focus();
     });
-    
    
-//    $(document).on('click','#player12', function(e) {
-//        $(this).replaceWith('<a id="player1_name" class="circle">Player1name</a>');                
-//                          });
     
     $(document).keyup('.playername', function(e) {
-	var code = e.which;
-	var name = e.target.value;
-        
-	if (code == 13 && name != "") {
-        
-		e.preventDefault();
-		if (e.target.id == "player1") {
-			player1.name = name;
-            $('#player1').replaceWith('<a id="player1_name" class="circle playername1 name"></a>');
-            $('#player1_name').text(name);
-		} else {
-			player2.name = name;
-            $('#player2').replaceWith('<a id="player2_name" class="cross playername2 name"></a>');
-            $('#player2_name').text(name);
+		var code = e.which;
+		var name = e.target.value;
+	        
+		if (code == 13 && name != "") {
+	        
+			e.preventDefault();
+			if (e.target.id == "player1") {
+				player1.name = name;
+	            $('#player1').replaceWith('<a id="player1_name" class="circle \
+	            							playername1 name"></a>');
+	            $('#player1_name').text(name);
+			} else {
+				player2.name = name;
+	            $('#player2').replaceWith('<a id="player2_name" class="cross \
+	            							playername2 name"></a>');
+	            $('#player2_name').text(name);
+			}
 		}
-	}
 	});
-    
-    
-	function nextTurn() {
-		if (player_turn == 1) {
-		 	player_turn = 2;
-		 	$('#player1_name').removeClass('active');
-		 	$('#player2_name').addClass('active');
-		} else {
-			player_turn = 1;
-			$('#player2_name').removeClass('active');
-		 	$('#player1_name').addClass('active');
-		}
-	}
-
+	/********************************************************/
 
 	// Play using numpad
 	$(document).keyup('.cell', function(e) {
@@ -109,17 +88,29 @@ $(document).ready(function() {
 		}
 	});
 
+	//Play with mouse
 	$('.cell').on('click', function(e) {
 		var cell = e.target.id;
 		playTurn($(this), cell);
 	});
 
-	$('.cell').on('focus', function(e) {
+
+	$('#reset_grid').on('click', function() {
+		resetGrid();
 	});
-	function playTurn(cell, cellname) {
+    
+    $('#reset_score').on('click', function() {
+        resetScore();
+    });
+
+
+    //Main game function. 
+    function playTurn(cell, cellname) {
+		
 		if (cell.hasClass('is-disabled')) {
 			return;
 		}
+		
 		cell.text(drawSymbol());
 		cell.removeClass("cross circle").addClass(changeCellState());
 		alterGrid(cellname, changeCellState());
@@ -135,7 +126,21 @@ $(document).ready(function() {
 			$('#score').text("Draw");
             markLoss();
 		}
+
 		nextTurn();
+	}
+
+	//Tracks turn and highlight the players name
+    function nextTurn() {
+		if (player_turn == 1) {
+		 	player_turn = 2;
+		 	$('#player1_name').removeClass('active');
+		 	$('#player2_name').addClass('active');
+		} else {
+			player_turn = 1;
+			$('#player2_name').removeClass('active');
+		 	$('#player1_name').addClass('active');
+		}
 	}
 
 	function increaseScore() {
@@ -147,26 +152,20 @@ $(document).ready(function() {
         updateScore();
 	}
 
+	//Fills cell with corresponding symbol
 	function drawSymbol() {
 		return player_turn == 1 ? "O" : "X";
 	}
 
+	//Adds class to newly filled cell
 	function changeCellState() {
 		return player_turn == 1 ? "circle" : "cross";
 	}
 
+	//Updates grid object
 	function alterGrid(cell, state) {
 		grid[cell] = state;
 	}
-
-
-	$('#reset_grid').on('click', function() {
-		resetGrid();
-	});
-    
-    $('#reset_score').on('click', function() {
-        resetScore();
-    });
     
     function resetGrid() {
     	grid = {tl: "empty", tc: "empty", tr:"empty",
@@ -187,6 +186,24 @@ $(document).ready(function() {
         $('#player1_score').text(player1.score);
         $('#player2_score').text(player2.score);
     }
+
+    //Add a .loss class after a win or draw to non-winning cells
+    function markLoss() {
+        $('.cell').not('.win').addClass('loss');
+    }
+
+    //Checks if it is a draw
+	function draw() {
+		return !win() && fullGrid();
+	}
+
+	//Checks if the frid is full
+	function fullGrid() {
+		return turns == 9;
+	}
+
+
+    /**************************** WINNING SCENARIOS *******************************/
 	function win() {
 		return winDiagonal() || winRow() || winCol();
 	}
@@ -246,19 +263,7 @@ $(document).ready(function() {
         return false;
 	}
     
-    function markLoss() {
-        $('.cell').not('.win').addClass('loss');
-    }
-
-	function draw() {
-		return !win() && fullGrid();
-	}
-
-	function fullGrid() {
-		return turns == 9;
-	}
-    
-/************************ THEME ************************/
+/************************ THEME CONTROL ************************/
     
     $('#dark').on('click', function() {
         $('#thm').attr('href', 'css/theme_dark.css');      
