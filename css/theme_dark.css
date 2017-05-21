@@ -1,0 +1,145 @@
+body {
+    background-color: #555;
+    transition: background-color;
+    transition-duration: 1s;
+}
+
+/*HEADER*/
+header {
+    background-color: #222;
+    color: #f1f1f1;
+}
+
+/*CONTENT*/
+
+/********************* GRID ********************/
+.circle {
+   color: #222;    
+}
+
+.cross {
+   color: #f1f1f1; 
+}
+
+.cell {
+    background-color: #444;
+    transition: background-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+
+.cell:hover {
+    background-color: #d1d1d1;
+}
+
+.cell:active {
+    background-color: white;
+}
+
+.cell.circle{
+    background-color:#333;
+    text-shadow: 0px 10px 10px #111;
+}
+
+.cell.cross{
+    background-color:#ccc;
+}
+
+.cell.win {
+    background-color: #000;
+    color: white;
+}
+
+.cell.loss {
+    background-color: #333;
+    color: dimgray;
+}
+
+/******************** Names *******************/
+.nameform {
+    background-color: white;
+    
+}
+
+.name {
+    transition-property: background-color, color;
+    transition-duration: 0.2s, 0.1s;
+}
+.name#player1_name.active {
+    background-color: #333;
+    color:white;
+}
+
+.name#player2_name.active {
+    background-color: #ccc;
+    color:#333;
+}
+
+/****************** BUTTONS *****************/
+.btn {
+    background-color:#d8d8d8;
+    transition: background-color, color;
+    transition-duration: 0.3s, 0.1s;
+    transition-timing-function: ease-in-out;
+}
+
+.btn#reset_grid:hover {
+    background-color: #333;
+    color:white;
+}
+
+.btn#reset_score:hover {
+    background-color: #333;
+    color:white;
+}
+
+/***************** FOOTER ******************/
+footer {
+    background-color: #ddd;
+}
+
+.dropbtn {
+    background-color: #777;
+    color: white;
+    transition: background-color;
+    transition-duration: 0.5s;
+}
+
+.dropdown-content {
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    opacity:0;
+    transition: opacity;
+    transition-duration: 0.5s;
+}
+
+.dropdown-content a {
+    color: black;
+    border: 4px solid black;
+}
+
+.dropdown-content a#orange_blue {
+    background: linear-gradient(90deg, #004fc6 50%, #ff9000 50%);
+}
+
+.dropdown-content a#normal {
+    background: linear-gradient(90deg, #05c1ff 50%, #cc0099 50%);
+    border-top:none;
+}
+
+.dropdown-content a#dark {
+    background: linear-gradient(90deg, #3a3a3a 50%, #f7f7f7 50%);
+    border-top:none;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:active {background-color: #f1f1f1}
+
+
+.dropdown:hover .dropdown-content {
+    opacity:1;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #333;
+}

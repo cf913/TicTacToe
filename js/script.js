@@ -208,15 +208,15 @@ $(document).ready(function() {
 /************************ THEME ************************/
     
     $('#dark').on('click', function() {
-        $('#stl').attr('href', 'css/style_dark.css');      
+        $('#thm').attr('href', 'css/theme_dark.css');      
     });
     
     $('#normal').on('click', function() {
-        $('#stl').attr('href', 'css/style.css');      
+        $('#thm').attr('href', 'css/theme_normal.css');      
     });
     
     $('#orange_blue').on('click', function() {
-        $('#stl').attr('href', 'css/style_orange_blue.css');      
+        $('#thm').attr('href', 'css/theme_orange_blue.css');      
     });
 
 
