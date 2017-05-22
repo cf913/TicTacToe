@@ -29,6 +29,7 @@ header {
     transition: background-color;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
+
 }
 
 .cell:hover, .cell:focus {
@@ -64,6 +65,68 @@ header {
     border-radius: 30px;
     
 }
+
+/****************** P4 **************/ 
+
+table#puissance4 {
+    background-color: #555;
+    border: 15px solid #444;
+}
+
+.cell_p4 {
+    background-color: #777;
+    transition: background-color, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+
+.cell_p4.circle {
+    background-color: #05c1ff;
+
+    box-shadow: inset 10px 10px 71px 12px rgba(0,0,0,0.30);
+}
+
+.cell_p4.cross {
+    background-color: #cc0099;
+
+    box-shadow: inset 10px 10px 71px 12px rgba(0,0,0,0.20);
+
+}
+
+.cell_p4:hover, .cell_p4:focus {
+    opacity: 0.5;
+    transition-duration: 0.1s;
+}
+
+.cell_p4:active {
+    opacity:1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#grid_control.p4 {
+    background-color: #333;
+}
+
 
 /******************** Names *******************/
 .name {
@@ -111,6 +174,22 @@ footer {
     transition: background-color;
     transition-duration: 0.5s;
 }
+
+.game#tic {
+    background-color: hsl(272, 100%, 39%);
+    color: white;
+    transition: background-color;
+    transition-duration: 0.5s;
+}
+
+.game#p4 {
+    background-color: hsl(280, 100%, 39%);
+    color: white;
+    transition: background-color;
+    transition-duration: 0.5s;
+}
+
+
 
 .dropdown-content {
     background-color: #f9f9f9;
