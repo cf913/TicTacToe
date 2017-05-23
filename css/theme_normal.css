@@ -102,6 +102,14 @@ table#puissance4 {
     opacity:1;
 }
 
+.cell_p4.win {
+    background-color: gold;
+}
+
+.cell_p4.loss {
+    opacity:0.5;
+}
+
 
 
 

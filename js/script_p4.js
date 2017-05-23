@@ -8,10 +8,12 @@ $(document).ready(function() {
 
 	var player1 = {name: "Player1", symbol: "circle", score: 0};
 	var player2 = {name: "Player2", symbol: "cross", score: 0};
-	var grid = {col0: [], col1: [], col2: [], col3: [], col4: [], col5: [], col6: []};
-	var col0, col1, col2, col3, col4, col5, col6 = [0,0,0,0,0,0];
-
-
+	grid = {col0: [], col1: [], col2: [], col3: [], col4: [], col5: [], col6: []};
+	
+	var winindex = 0;
+	var gridrow = {row0: [0,0,0,0,0,0,0], row1: [0,0,0,0,0,0,0],
+				   row2: [0,0,0,0,0,0,0], row3: [0,0,0,0,0,0,0], 
+				   row4: [0,0,0,0,0,0,0], row5: [0,0,0,0,0,0,0]};
 
     /*************** Change player name *********************/
     $(document).on('dblclick', '#player1_name', function(e) {
@@ -54,12 +56,12 @@ $(document).ready(function() {
 	//Play with mouse
 	$('.cell_p4').on('click', function(e) {
 		var cell = e.target.id;
-		playTurn($(this), cell);
+		playTurn_p4($(this), cell);
 	});
 
 
 	$('#reset_grid').on('click', function() {
-		resetGrid();
+		resetGrid_p4();
 	});
     
     $('#reset_score').on('click', function() {
@@ -68,15 +70,15 @@ $(document).ready(function() {
 
 
     //Main game function. 
-    function playTurn(cell, cellname) {
+    function playTurn_p4(cell, cellname) {
 		
 		if (cell.hasClass('is-disabled')) {
 			return;
 		}
 
-		console.log("cellname0: " + cellname);
+
 		cellname = getGoodCell(cell, cellname);
-		console.log("cellname1: " + cellname);
+
 
 		cell = $('#' + cellname);
 
@@ -88,17 +90,19 @@ $(document).ready(function() {
 		cell.addClass('is-disabled');
 		turns += 1;
 
-		// if (turns > 6) {
-		// 	if (win(cellname) == true) {
-		// 		$('#score').text("Winner"); 
-		// 		increaseScore();
-		// 		$('.cell').addClass("is-disabled");
-	 //            markLoss();
-		// 	} else if (draw()) {
-		// 		$('#score').text("Draw");
-	 //            markLoss();
-		// 	}
-		// }	
+		if (turns > 6) {
+			if (win_p4(cellname) == true) {
+				console.log("WIN!");
+				$('#score').text("Winner"); 
+				increaseScore();
+				$('.cell_p4').addClass("is-disabled");
+	            markLoss();
+
+			}// } else if (draw()) {
+			// 	$('#score').text("Draw");
+	  //           markLoss();
+			// }
+		}	
 		nextTurn();
 	}
 
@@ -126,10 +130,12 @@ $(document).ready(function() {
 
 	function getGoodCell(cell, cellname) {
 		var row = cellname[0];
+		var rowgrid = "row" + row;
 		var col = "col" + cellname[1];
 		if (grid[col].length < 6) {
 			grid[col].push(player_turn);
 			row = 6 - grid[col].length;
+			gridrow[rowgrid][cellname[1]] = player_turn;
 		}
 
 		return "" + row + col[3];
@@ -138,6 +144,10 @@ $(document).ready(function() {
 
 
 	}
+
+				// gridrow[rowgrid][cellname[1]] = player_turn; // ROWGRID
+			// // console.log("grid: " + grid[col].length);
+			// // console.log("gridrow length: " + fourInARow(grid[col]));
 
 	//Adds class to newly filled cell
 	function changeCellState() {
@@ -149,10 +159,13 @@ $(document).ready(function() {
 		grid[cell] = state;
 	}
     
-    function resetGrid() {
+    function resetGrid_p4() {
     	grid = {col0: [], col1: [], col2: [], col3: [], col4: [], col5: [], col6: []};
+    	gridrow = {row0: [0,0,0,0,0,0,0], row1: [0,0,0,0,0,0,0],
+				   row2: [0,0,0,0,0,0,0], row3: [0,0,0,0,0,0,0], 
+				   row4: [0,0,0,0,0,0,0], row5: [0,0,0,0,0,0,0]};
+		winindex = 0;
 		$('.cell_p4').removeClass("cross circle is-disabled win loss").text("");
-		console.log($('tr').children());
 		turns = 0; 
     }
 
@@ -169,7 +182,7 @@ $(document).ready(function() {
 
     //Add a .loss class after a win or draw to non-winning cells
     function markLoss() {
-        $('.cell').not('.win').addClass('loss');
+        $('.cell_p4').not('.win').addClass('loss');
     }
 
     //Checks if it is a draw
@@ -184,5 +197,79 @@ $(document).ready(function() {
 
 
     /**************************** WINNING SCENARIOS *******************************/
+
+    function win_p4(cellname) {
+    	return winRow(cellname) || winCol(cellname);
+    }
+
+    function winRow(cellname) {
+    	var row = "row" + cellname[0];
+    	var col = "col" + cellname[1];
+    	var r = cellname[0];
+    	var c = cellname[1];
+    	var i;
+  		if (fourInARow(gridrow[row])) {
+    		$('#' + r + winindex).addClass('win');
+    		for (i = winindex; i > winindex - 4; i--) {
+    			$('#' + r + i).addClass('win');
+    		}
+    		return true;
+    	}
+    	return false;
+    }
+
+
+
+  		// //return (fourInARow(gridrow[row]));
+    // }
+
+    function winCol(cellname) {
+    	var col = "col" + cellname[1];
+    	var r = cellname[0];
+    	var c = cellname[1];
+    	var i;
+    	if (fourInARow(grid[col])) {
+    		$('#' + (5-winindex) + c).addClass('win');
+    		for (i = 5-winindex; i < 5-winindex + 4; i++) {
+    			$('#' + i + c).addClass('win');
+    		}
+    		return true;
+    	}
+    	return false;
+    }
+
+    function fourInARow(l) {
+    	console.log("l: " + l);
+    	if (l.length == 0) {
+    		return false;
+    	}
+
+    	var current = l[0];
+    	var count = 1;
+    	var i;
+    	for (i = 1; i < l.length; i++) {
+    		// console.log("curr: " + current);	
+    		if (current == 0) {
+    			count = 1;
+    			current  = l[i];
+    			continue;
+    		}
+    		if (current == l[i]) {
+    			count++;
+    			if (count == 4) {
+	    			winindex = i;
+	    			console.log("winindex: " + winindex);
+	    			return true;
+    			}
+    		} else {
+    			count = 1;
+    		}
+
+    		current  = l[i];
+    	}
+    	console.log(l);
+    	console.log("count: " + count);
+    	return count == 4;
+    } 
 
 });
