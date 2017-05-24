@@ -11,6 +11,8 @@ $(document).ready(function() {
 	grid = {col0: [], col1: [], col2: [], col3: [], col4: [], col5: [], col6: []};
 	
 	var winindex = 0;
+	var wincurcellright = 0;
+	var wincurcellleft = 0;
 	var gridrow = {row0: [0,0,0,0,0,0,0], row1: [0,0,0,0,0,0,0],
 				   row2: [0,0,0,0,0,0,0], row3: [0,0,0,0,0,0,0], 
 				   row4: [0,0,0,0,0,0,0], row5: [0,0,0,0,0,0,0]};
@@ -130,12 +132,11 @@ $(document).ready(function() {
 
 	function getGoodCell(cell, cellname) {
 		var row = cellname[0];
-		var rowgrid = "row" + row;
 		var col = "col" + cellname[1];
 		if (grid[col].length < 6) {
 			grid[col].push(player_turn);
 			row = 6 - grid[col].length;
-			gridrow[rowgrid][cellname[1]] = player_turn;
+			gridrow['row' + row][cellname[1]] = player_turn;
 		}
 
 		return "" + row + col[3];
@@ -165,6 +166,8 @@ $(document).ready(function() {
 				   row2: [0,0,0,0,0,0,0], row3: [0,0,0,0,0,0,0], 
 				   row4: [0,0,0,0,0,0,0], row5: [0,0,0,0,0,0,0]};
 		winindex = 0;
+		wincurcellleft = 0;
+		wincurrcellight = 0;
 		$('.cell_p4').removeClass("cross circle is-disabled win loss").text("");
 		turns = 0; 
     }
@@ -199,7 +202,7 @@ $(document).ready(function() {
     /**************************** WINNING SCENARIOS *******************************/
 
     function win_p4(cellname) {
-    	return winRow(cellname) || winCol(cellname);
+    	return winRow(cellname) || winCol(cellname) || winDiago(cellname);
     }
 
     function winRow(cellname) {
@@ -218,11 +221,6 @@ $(document).ready(function() {
     	return false;
     }
 
-
-
-  		// //return (fourInARow(gridrow[row]));
-    // }
-
     function winCol(cellname) {
     	var col = "col" + cellname[1];
     	var r = cellname[0];
@@ -238,8 +236,88 @@ $(document).ready(function() {
     	return false;
     }
 
+    function winDiago(cellname) {
+    	var diagoL = getDiagoLeft(cellname);
+    	var diagoR = getDiagoRight(cellname);
+    	var r = cellname[0];
+    	var c = cellname[1];
+    	if (fourInARow(diagoL)) {
+    		var i = winindex-wincurcellleft;
+    		var j;
+    		for (j = 0; j < 4; j++) {
+    			$('#' + (parseInt(r)+i) + (parseInt(c)+i)).addClass('win');
+    			i--;
+    		}
+    	} else if (fourInARow(diagoR)) {
+    		var i = winindex-wincurcellright;
+    		var j;
+    		for (j = 0; j < 4; j++) {
+    			$('#' + (parseInt(r)+i) + (parseInt(c)-i)).addClass('win');
+    			i--;
+    		}
+
+    	} else {
+    		return false;
+    	}
+    	return true;
+    }
+
+    function getDiagoLeft(cellname) {
+    	var diagonal= [];
+    	var r = cellname[0];
+    	var c = cellname[1];
+    	var maxr = 5;
+    	var maxc = 6;
+    	var topleft = Math.min(r, c);
+    	wincurcellleft = topleft;
+    	var initr = r - topleft;
+    	var initc = c - topleft;
+    	// console.log("initr: " + initr);
+    	// console.log("initc: " + initc);
+
+    	while (initr <= maxr && initc <= maxc) {
+    		diagonal.push(getCellState(initr,initc));
+    		initr++;
+    		initc++;
+    	}
+    	console.log("diagonal: " + diagonal);
+    	return diagonal; 
+    }
+
+    function getDiagoRight(cellname) {
+    	var diagonal= [];
+    	var r = cellname[0];
+    	var c = cellname[1];
+    	var maxr = 5;
+    	var maxc = 0;
+    	var topright = Math.min(r, ( 6 - parseInt(c)));
+    	wincurcellright = topright;
+    	var initr = r - topright;
+    	var initc = parseInt(c) + topright;
+    	// console.log("c: " + c);
+    	// console.log("initc: " + initc);
+
+    	while (initr <= maxr && initc >= maxc) {
+    		diagonal.push(getCellState(initr,initc));
+    		initr++;
+    		initc--;
+    	}
+    	// console.log("diagonal: " + diagonal);
+    	return diagonal; 
+    }
+
+    function getCellState(r,c) {
+    	var state;
+    	var row  = "row" + r;
+    	// console.log("row: " + row);
+    	// console.log("c: " + c);
+    	// console.log("gridrow: " + gridrow[row]);
+    	state = gridrow[row][c];
+    	return state;
+    }
+
     function fourInARow(l) {
-    	console.log("l: " + l);
+    	// console.log("l: " + l);
     	if (l.length == 0) {
     		return false;
     	}
@@ -258,7 +336,7 @@ $(document).ready(function() {
     			count++;
     			if (count == 4) {
 	    			winindex = i;
-	    			console.log("winindex: " + winindex);
+	    			// console.log("winindex: " + winindex);
 	    			return true;
     			}
     		} else {
@@ -267,8 +345,8 @@ $(document).ready(function() {
 
     		current  = l[i];
     	}
-    	console.log(l);
-    	console.log("count: " + count);
+    	// console.log(l);
+    	// console.log("count: " + count);
     	return count == 4;
     } 
 

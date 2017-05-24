@@ -55,6 +55,53 @@ header {
     color: dimgray;
 }
 
+
+/******************** P4 **********************/
+table#puissance4 {
+    background-color: #222;
+    border: 15px solid #000;
+}
+
+.cell_p4 {
+    background-color: #444;
+    transition: background-color, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+}
+
+.cell_p4.circle {
+    background-color: #000;
+
+    box-shadow: inset 10px 10px 71px 12px rgba(0,0,0,0.30);
+}
+
+.cell_p4.cross {
+    background-color: #d1d1d1;
+
+    box-shadow: inset 10px 10px 71px 12px rgba(0,0,0,0.20);
+
+}
+
+.cell_p4:hover, .cell_p4:focus {
+    opacity: 0.5;
+    transition-duration: 0.1s;
+}
+
+.cell_p4:active {
+    opacity:1;
+}
+
+.cell_p4.win {
+    background-color: gold;
+}
+
+.cell_p4.loss {
+    opacity:0.5;
+}
+
+#grid_control.p4 {
+    background-color: #333;
+}
 /******************** Names *******************/
 .nameform {
     background-color: white;
@@ -77,14 +124,14 @@ header {
 
 /****************** BUTTONS *****************/
 .btn {
-    background-color:#d8d8d8;
+    background-color:#222;
     transition: background-color, color;
     transition-duration: 0.3s, 0.1s;
     transition-timing-function: ease-in-out;
 }
 
 .btn#reset_grid:hover {
-    background-color: #333;
+    background-color: #222;
     color:white;
 }
 
@@ -100,6 +147,20 @@ footer {
 
 .dropbtn {
     background-color: #777;
+    color: white;
+    transition: background-color;
+    transition-duration: 0.5s;
+}
+
+.game#tic {
+    background-color: #333;
+    color: white;
+    transition: background-color;
+    transition-duration: 0.5s;
+}
+
+.game#p4 {
+    background-color: #666;
     color: white;
     transition: background-color;
     transition-duration: 0.5s;
