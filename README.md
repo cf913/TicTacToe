@@ -1,6 +1,6 @@
 # Tic Tac Toe
 
-Initial implementation of a TicTacToe and Align-4 (or Connect-4) using HTML5 CSS JQuery
+First implementation of a TicTacToe and Align-4 from scratch using HTML5 CSS JQuery
 
 ## Getting Started
 
