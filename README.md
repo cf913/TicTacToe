@@ -1,10 +1,10 @@
 # Tic Tac Toe
 
-Initial implementation of a TicTacToe game using JQuery
+Initial implementation of a TicTacToe and Align-4 (or Connect-4) using HTML5 CSS JQuery
 
 ## Getting Started
 
-Clone this repo man.
+Clone or download this repo --> open index.html in a browser.
 
 ### Prerequisites
 
@@ -12,7 +12,7 @@ Web Browser (Chrome recommended)
 
 ## Coming Soon
 
-3 levels of AI to play against: "So easy", "Meh he got lucky" and "Unbeatable".
+(TicTacToe) 3 levels of AI to play against: "So easy", "Meh he got lucky" and "Unbeatable".
 
 ## Built With
 
